@@ -8,4 +8,8 @@ ffprobe/ffmpeg
 youtube_dl
 wave
 pyaudio
+
+kivy
+
+pip install --upgrade google-api-python-client google-auth google-auth-oauthlib google-auth-httplib2
 ```

@@ -1,7 +1,22 @@
-import pyaudio  
-import wave  
+import playlists
+from ydl import ydl
+import pyaudio
+import wave
+
+def loop ():
+    playlist = playlists.ninety9lives
+    while True:
+        video_id = playlist.shuffle(playlist)
+        ydl({
+            'file_name': 'audio',
+            'codec': 'wav',
+            'url': 'https://www.youtube.com/watch?v=' + video_id
+        })
+        play("audio.wav")
+        
 
 def play (file_name):
+    print ("playing audio...")
     #define stream chunk   
     chunk = 1024  
 
@@ -27,4 +42,5 @@ def play (file_name):
     stream.close()  
 
     #close PyAudio  
-    p.terminate()  
+    p.terminate()
+    print ("stopping audio...")

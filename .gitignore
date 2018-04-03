@@ -1,2 +1,4 @@
 *.pyc
 audio.wav
+client_secret.json
+service_account.json

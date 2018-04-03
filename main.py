@@ -1,13 +1,6 @@
-from ydl import ydl
 import audio
 import threading
 from queue import Queue
-
-ydl({
-    'file_name': 'audio',
-    'codec': 'wav',
-    'url': 'https://www.youtube.com/watch?v=8-jkyida4zw&ab_channel=billwurtz'
-})
 
 # Create the queue and threader 
 q = Queue()
@@ -19,17 +12,20 @@ def threader(job, args):
         q.get()
 
         # Run the example job with the avail worker in queue (thread)
-        job(args)
+        if (args != None):
+            job(args)
+        else:
+            job()
         
         # completed with the job
         q.task_done()
 
-for worker in range(1):
-    q.put(worker)
-
-t = threading.Thread(target=threader, args=(audio.play, "audio.wav"))
+t = threading.Thread(target=threader, args=(audio.loop, None))
 t.daemon = True
 t.start()
+
+for worker in range(1):
+    q.put(worker)
 
 print("Thread1")
 q.join()
