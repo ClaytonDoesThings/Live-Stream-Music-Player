@@ -21,7 +21,7 @@ def threader(job, args):
         q.task_done()
 
 t = threading.Thread(target=threader, args=(audio.loop, None))
-t.daemon = True
+t.daemon = False
 t.start()
 
 for worker in range(1):

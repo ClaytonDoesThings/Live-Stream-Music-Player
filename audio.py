@@ -5,12 +5,20 @@ import wave
 
 def loop ():
     playlist = playlists.ninety9lives
+
+    with open('credits.txt', 'w') as f:
+        f.write("These credits were created with Live Stream Music player by Clayton Does Things (https://github.com/ClaytonDoesThings/Live-Stream-Music-Player; https://www.youtube.com/channel/UChXdVQ8mm8UQBir87KaRgTQ?&ab_channel=ClaytonDoesThings)\n")
+
     while True:
-        video_id = playlist.shuffle(playlist)
+        video = playlist.shuffle()
+        print(video.title)
+        with open('credits.txt', 'r+') as f:
+            if video.credit not in f.read():
+                f.write("\n" + video.credit + "\n")
         ydl({
             'file_name': 'audio',
             'codec': 'wav',
-            'url': 'https://www.youtube.com/watch?v=' + video_id
+            'url': 'https://www.youtube.com/watch?v=' + video.id
         })
         play("audio.wav")
         

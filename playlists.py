@@ -1,10 +1,20 @@
 import ytda
 import random
 
+class Track:
+    def __init__(self, title, id, publisher, desc, credit):
+        self.title = title
+        self.id = id
+        self.publisher = publisher
+        self.desc = desc
+        self.credit = credit
+
 class Playlist:
-    def __init__(self, items, shuffle):
+    def __init__(self, items):
         self.items = items
-        self.shuffle = shuffle
+    def shuffle(self):
+        return random.choice(self.items)
+
 
 def ninety9lives_get():
     results = []
@@ -21,10 +31,14 @@ def ninety9lives_get():
             pageToken = response.get('nextPageToken')
         else:
             working = False
-        results = results+response.get('items')
+        for track in response.get('items'):
+            title = track.get('snippet').get('title')
+            id = track.get('contentDetails').get('videoId')
+            publisher = "Ninety9Lives"
+            desc = track.get('snippet').get('description')
+            credit = desc[desc.find('Track: '): -(len(desc)-(desc.find('Questions?')-22))]
+            result = Track(title, id, publisher, desc, credit)
+            results.append(result)
     return results
 
-def ninety9lives_shuffle (playlist):
-    return random.choice(playlist.items).get('contentDetails').get('videoId')
-
-ninety9lives = Playlist(ninety9lives_get(), ninety9lives_shuffle)
+ninety9lives = Playlist(ninety9lives_get())
